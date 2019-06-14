@@ -1,0 +1,22 @@
+sudo: required
+services: 
+  - docker
+
+before_install:
+  - docker build -t jieqiong/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run jieqiong/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t jieqiong/multi-client ./client
+  - docker build -t jieqiong/multi-nginx ./nginx
+  - docker build -t jieqiong/multi-server ./server
+  - docker build -t jieqiong/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker pub
+  - docker push jieqiong/multi-client
+  - docker push jieqiong/multi-nginx
+  - docker push jieqiong/multi-server
+  - docker push jieqiong/multi-worker
