@@ -12,3 +12,7 @@ docker-compose up
 ## --build flag to rebuild all images
 docker-compose up --build
 ```
+
+JSON Validate
+
+https://jsonlint.com/

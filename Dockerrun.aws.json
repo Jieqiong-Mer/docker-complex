@@ -1,0 +1,34 @@
+{
+    "AWSEBDOckerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "jieqiong/multi-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "jieqiong/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "jieqiong/multi-worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "jieqiong/multi-nginx",
+            "essential": true,
+            "protMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client", "server"]
+        }
+    ]
+}
